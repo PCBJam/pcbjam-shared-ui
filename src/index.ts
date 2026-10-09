@@ -1,4 +1,5 @@
 export { cn } from "./lib/utils";
+export { Badge, badgeVariants, type BadgeProps } from "./components/badge";
 export { Button, buttonVariants, type ButtonProps } from "./components/button";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./components/combobox";
 export {

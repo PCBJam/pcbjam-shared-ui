@@ -23,6 +23,13 @@
   --input: 214.3 31.8% 91.4%;
   --ring: 222.2 84% 4.9%;
   --radius: 0.5rem;
+  /* Tones for badges and status text. Each clears 4.5:1 (WCAG AA) on a 15% tint of itself
+     over the background and the cards, in both themes. */
+  --success: 142 64% 24%;
+  --warning: 23 83% 31%;
+  --danger: 0 74% 42%;
+  --info: 224 76% 48%;
+  --preview: 263 70% 50%;
 }
 
 .dark {
@@ -43,4 +50,9 @@
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --ring: 212.7 26.8% 83.9%;
+  --success: 142 69% 58%;
+  --warning: 43 96% 56%;
+  --danger: 0 91% 76%;
+  --info: 213 94% 74%;
+  --preview: 252 95% 82%;
 }

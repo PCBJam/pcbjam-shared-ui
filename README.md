@@ -16,6 +16,9 @@ elements. Apps compose these components and never restyle the primitives.
 - `Select` takes `value=""` on an item (Radix alone refuses it), so a native `<select>`'s
   "All" or "None" option ports over as is. `Combobox` is the Select with a search box, for
   long lists (branches, repositories, symbols).
+- `Badge` takes a `tone` (neutral, primary, success, warning, danger, info, preview) and a
+  `variant` (soft, outline, solid). The tones are tokens in `theme.css` with their own dark
+  values; each clears 4.5:1 on its 15% tint in both themes.
 - Tests: a Select or Combobox trigger carries the chosen value in `data-value`, and each
   option its value in `data-option-value`. Pick one with a click on the trigger, then on
   `[role=option][data-option-value="…"]`.

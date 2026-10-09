@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import {
+  Badge,
   Button,
   Card,
   CardContent,
@@ -91,5 +92,20 @@ describe("Select and Combobox triggers expose their value", () => {
     );
     expect(empty).toContain("Pick a branch");
     expect(empty).toContain('data-placeholder=""');
+  });
+});
+
+describe("Badge", () => {
+  it("defaults to a soft neutral label", () => {
+    const html = renderToStaticMarkup(<Badge>pending</Badge>);
+    expect(html).toMatch(/^<span /);
+    expect(html).toContain("bg-muted");
+    expect(html).toContain("rounded-md");
+  });
+
+  it("tone and variant pick the token classes", () => {
+    expect(renderToStaticMarkup(<Badge tone="success">ready</Badge>)).toContain("bg-success/15 text-success");
+    expect(renderToStaticMarkup(<Badge tone="danger" variant="outline">failed</Badge>)).toContain("border-danger/40 text-danger");
+    expect(renderToStaticMarkup(<Badge tone="primary" variant="solid" shape="pill">3</Badge>)).toMatch(/bg-primary text-primary-foreground.*rounded-full|rounded-full.*bg-primary text-primary-foreground/);
   });
 });
