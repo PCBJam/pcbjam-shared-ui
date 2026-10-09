@@ -155,6 +155,21 @@ describe("Tabs, ToggleGroup and Toggle keep the ARIA roles specs rely on", () =>
   it("Toggle: a pressed button", () => {
     expect(renderToStaticMarkup(<Toggle pressed>Comments</Toggle>)).toMatch(/<button [^>]*aria-pressed="true"/);
   });
+
+  it("Toggle: the default sizes fix the icon at 16px, row and xs leave the icon's own size", () => {
+    expect(renderToStaticMarkup(<Toggle>x</Toggle>)).toContain("[&amp;_svg]:size-4");
+    const row = renderToStaticMarkup(
+      <Toggle variant="ghost" size="row" className="hover:bg-black/5">
+        x
+      </Toggle>,
+    );
+    expect(row).not.toContain("size-4");
+    expect(row).toContain("w-full");
+    // The caller's hover fill replaces the variant's.
+    expect(row).toContain("hover:bg-black/5");
+    expect(row).not.toContain("hover:bg-accent");
+    expect(renderToStaticMarkup(<Toggle variant="ghost" size="xs">x</Toggle>)).not.toContain("size-4");
+  });
 });
 
 describe("Checkbox, RadioGroup and Switch expose the roles Playwright's check() needs", () => {

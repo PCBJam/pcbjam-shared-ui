@@ -23,7 +23,8 @@ elements. Apps compose these components and never restyle the primitives.
   column of icon tabs). `ToggleGroup` picks one (type="single", items are radios) or several
   values; `variant="segmented"` is the segmented control. A single group ignores a click
   that would clear its value unless `deselectable` is set. `Toggle` is one pressed/unpressed
-  button.
+  button; `variant="ghost"` has no pressed look of its own (style it with `data-[state=on]:`),
+  `size="row"` makes a full-width menu row and `size="xs"` a bare icon.
 - `Checkbox`, `RadioGroup` and `Switch` are buttons with `role="checkbox"`, `"radio"` and
   `"switch"`, so Playwright's `check()` and `toBeChecked()` work as on native inputs.
   `onCheckedChange` gets `true`, `false` or `"indeterminate"`. Use a Switch for a setting that
