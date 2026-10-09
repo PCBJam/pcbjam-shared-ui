@@ -4,15 +4,19 @@ import {
   Badge,
   Button,
   Card,
+  Checkbox,
   CardContent,
   Combobox,
   Input,
   Label,
+  RadioGroup,
+  RadioGroupItem,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Switch,
   Tabs,
   TabsList,
   TabsTrigger,
@@ -144,5 +148,27 @@ describe("Tabs, ToggleGroup and Toggle keep the ARIA roles specs rely on", () =>
 
   it("Toggle: a pressed button", () => {
     expect(renderToStaticMarkup(<Toggle pressed>Comments</Toggle>)).toMatch(/<button [^>]*aria-pressed="true"/);
+  });
+});
+
+describe("Checkbox, RadioGroup and Switch expose the roles Playwright's check() needs", () => {
+  it("Checkbox: role checkbox with aria-checked", () => {
+    expect(renderToStaticMarkup(<Checkbox checked aria-label="models" />)).toMatch(/role="checkbox" aria-checked="true"/);
+    expect(renderToStaticMarkup(<Checkbox checked={false} aria-label="models" />)).toMatch(/aria-checked="false"/);
+  });
+
+  it("RadioGroup: a radiogroup of radios, the chosen one checked", () => {
+    const html = renderToStaticMarkup(
+      <RadioGroup value="here">
+        <RadioGroupItem value="new" aria-label="New folder" />
+        <RadioGroupItem value="here" aria-label="This folder" />
+      </RadioGroup>,
+    );
+    expect(html).toContain('role="radiogroup"');
+    expect(html).toMatch(/role="radio" aria-checked="true"[^>]*aria-label="This folder"|aria-label="This folder"[^>]*role="radio" aria-checked="true"/);
+  });
+
+  it("Switch: role switch with aria-checked", () => {
+    expect(renderToStaticMarkup(<Switch checked aria-label="grant git" />)).toMatch(/role="switch" aria-checked="true"/);
   });
 });

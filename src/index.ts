@@ -1,6 +1,7 @@
 export { cn } from "./lib/utils";
 export { Badge, badgeVariants, type BadgeProps } from "./components/badge";
 export { Button, buttonVariants, type ButtonProps } from "./components/button";
+export { Checkbox } from "./components/checkbox";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./components/combobox";
 export {
   Command,
@@ -53,3 +54,5 @@ export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./comp
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
 export { Toggle, toggleVariants } from "./components/toggle";
 export { ToggleGroup, ToggleGroupItem } from "./components/toggle-group";
+export { RadioGroup, RadioGroupItem } from "./components/radio-group";
+export { Switch } from "./components/switch";

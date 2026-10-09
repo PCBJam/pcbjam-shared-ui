@@ -23,6 +23,10 @@ elements. Apps compose these components and never restyle the primitives.
   one (type="single", items are radios) or several values; `variant="segmented"` is the
   segmented control. A single group ignores a click that would clear its value unless
   `deselectable` is set. `Toggle` is one pressed/unpressed button.
+- `Checkbox`, `RadioGroup` and `Switch` are buttons with `role="checkbox"`, `"radio"` and
+  `"switch"`, so Playwright's `check()` and `toBeChecked()` work as on native inputs.
+  `onCheckedChange` gets `true`, `false` or `"indeterminate"`. Use a Switch for a setting that
+  applies at once, a Checkbox for a choice that is submitted or a list selection.
 - Tests: a Select or Combobox trigger carries the chosen value in `data-value`, and each
   option its value in `data-option-value`. Pick one with a click on the trigger, then on
   `[role=option][data-option-value="…"]`.
