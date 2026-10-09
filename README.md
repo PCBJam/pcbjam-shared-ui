@@ -35,6 +35,9 @@ elements. Apps compose these components and never restyle the primitives.
   inner tooltip opens, and a trigger opens on focus only for its own focus. It needs one
   `TooltipProvider` above it, at the app root (a test harness that mounts a component alone
   needs one too).
+- `Toaster` (Sonner) goes once at the app root; `toast()`, `toast.error()`, `toast.warning()`,
+  `toast.info()` and `toast.success()` raise a toast from anywhere, in the tone colours. It
+  follows the `dark` class on the root element. `testId` puts a `data-testid` on the toast.
 - Tests: a Select or Combobox trigger carries the chosen value in `data-value`, and each
   option its value in `data-option-value`. Pick one with a click on the trigger, then on
   `[role=option][data-option-value="…"]`.

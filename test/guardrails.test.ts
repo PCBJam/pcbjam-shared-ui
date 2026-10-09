@@ -24,6 +24,7 @@ const ALLOWED_IMPORTS = [
   /^tailwind-merge$/,
   /^lucide-react$/,
   /^cmdk$/,
+  /^sonner$/,
 ];
 const ALLOWED_LICENSES = new Set(["MIT", "ISC", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "0BSD"]);
 

@@ -19,6 +19,8 @@ import {
   Switch,
   Tabs,
   Tip,
+  Toaster,
+  toast,
   TabsList,
   TabsTrigger,
   Toggle,
@@ -190,5 +192,12 @@ describe("Tip", () => {
 
   it("renders the child alone when there is no content", () => {
     expect(renderToStaticMarkup(<Tip content="">{<button type="button">x</button>}</Tip>)).toBe('<button type="button">x</button>');
+  });
+});
+
+describe("Toaster", () => {
+  it("renders Sonner's notification region, and toast is callable", () => {
+    expect(renderToStaticMarkup(<Toaster />)).toMatch(/<section aria-label="Notifications/);
+    expect(typeof toast.error).toBe("function");
   });
 });

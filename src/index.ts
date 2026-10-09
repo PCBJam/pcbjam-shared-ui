@@ -50,6 +50,7 @@ export {
   SelectScrollUpButton,
   SelectScrollDownButton,
 } from "./components/select";
+export { Toaster, toast, type ExternalToast } from "./components/sonner";
 export { Tip, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/tooltip";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
 export { Toggle, toggleVariants } from "./components/toggle";
