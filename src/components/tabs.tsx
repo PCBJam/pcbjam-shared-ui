@@ -12,6 +12,8 @@ const tabsListVariants = cva("", {
       segmented: "inline-flex w-fit items-center gap-1 rounded-lg bg-muted p-1 text-muted-foreground",
       // A row of labels over a rule, the active one underlined: for page sections.
       underline: "flex items-center gap-4 border-b",
+      // A column of icon tabs beside the panels (an activity bar): use with orientation="vertical".
+      rail: "flex flex-col gap-1",
     },
   },
   defaultVariants: { variant: "segmented" },
@@ -26,6 +28,7 @@ const tabsTriggerVariants = cva(
           "h-7 rounded-md px-3 hover:text-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm",
         underline:
           "-mb-px border-b-2 border-transparent px-1 pb-2 pt-1 text-muted-foreground hover:text-foreground data-[state=active]:border-primary data-[state=active]:text-foreground",
+        rail: "relative h-10 justify-start gap-2.5 rounded-md px-2.5 text-muted-foreground hover:bg-accent hover:text-foreground data-[state=active]:bg-accent data-[state=active]:text-foreground [&_svg]:size-5",
       },
     },
     defaultVariants: { variant: "segmented" },

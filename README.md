@@ -19,10 +19,11 @@ elements. Apps compose these components and never restyle the primitives.
 - `Badge` takes a `tone` (neutral, primary, success, warning, danger, info, preview) and a
   `variant` (soft, outline, solid). The tones are tokens in `theme.css` with their own dark
   values; each clears 4.5:1 on its 15% tint in both themes.
-- `Tabs` switch panels (`TabsList` variant `segmented` or `underline`). `ToggleGroup` picks
-  one (type="single", items are radios) or several values; `variant="segmented"` is the
-  segmented control. A single group ignores a click that would clear its value unless
-  `deselectable` is set. `Toggle` is one pressed/unpressed button.
+- `Tabs` switch panels (`TabsList` variant `segmented`, `underline`, or `rail`: a vertical
+  column of icon tabs). `ToggleGroup` picks one (type="single", items are radios) or several
+  values; `variant="segmented"` is the segmented control. A single group ignores a click
+  that would clear its value unless `deselectable` is set. `Toggle` is one pressed/unpressed
+  button.
 - `Checkbox`, `RadioGroup` and `Switch` are buttons with `role="checkbox"`, `"radio"` and
   `"switch"`, so Playwright's `check()` and `toBeChecked()` work as on native inputs.
   `onCheckedChange` gets `true`, `false` or `"indeterminate"`. Use a Switch for a setting that

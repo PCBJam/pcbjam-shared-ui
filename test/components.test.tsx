@@ -188,8 +188,39 @@ describe("Tip", () => {
         </Tip>
       </TooltipProvider>,
     );
-    expect(html).toMatch(/^<button [^>]*data-state="closed"/);
+    expect(html).toMatch(/^<button [^>]*type="button"/);
     expect(html).not.toContain("title=");
+  });
+
+  it("leaves the child's own data-state alone (a tab stays active, so its styles apply)", () => {
+    const html = renderToStaticMarkup(
+      <TooltipProvider>
+        <Tabs value="a">
+          <TabsList>
+            <Tip content="Quick actions">
+              <TabsTrigger value="a">A</TabsTrigger>
+            </Tip>
+          </TabsList>
+        </Tabs>
+      </TooltipProvider>,
+    );
+    expect(html).toMatch(/<button [^>]*data-state="active"/);
+    expect(html).not.toMatch(/data-state="closed"/);
+  });
+
+  it("passes a parent trigger's data-state through (a menu's open)", () => {
+    const html = renderToStaticMarkup(
+      <TooltipProvider>
+        <DropdownMenu open>
+          <DropdownMenuTrigger asChild>
+            <Tip content="Upload files">
+              <button type="button">Upload</button>
+            </Tip>
+          </DropdownMenuTrigger>
+        </DropdownMenu>
+      </TooltipProvider>,
+    );
+    expect(html).toMatch(/^<button [^>]*data-state="open"/);
   });
 
   it("renders the child alone when there is no content", () => {

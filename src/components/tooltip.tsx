@@ -36,6 +36,18 @@ type TipProps = Omit<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Trig
   children: React.ReactElement;
 };
 
+// Radix's tooltip trigger puts its own data-state (closed, delayed-open) on the child, over the
+// child's: a tab, toggle or switch inside a Tip would lose "active" or "on", and the styles
+// that read it. This drops the tooltip's and passes on one that came from a parent trigger
+// (a menu's open or closed).
+const KeepChildState = React.forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement> & { "data-state"?: string; parentState?: string }
+>(({ "data-state": _tooltipState, parentState, ...props }, ref) => (
+  <Slot ref={ref} {...props} {...(parentState !== undefined && { "data-state": parentState })} />
+));
+KeepChildState.displayName = "KeepChildState";
+
 // Pointer moves an inner Tip has already answered. Tips nest (a badge inside a button, a
 // button inside a drag-handle header) and a move bubbles to every trigger on its path; as
 // with nested `title`s, the innermost one wins.
@@ -113,7 +125,9 @@ const Tip = React.forwardRef<HTMLElement, TipProps>(
             if (event.target !== event.currentTarget) event.preventDefault();
           }}
         >
-          {children}
+          <KeepChildState parentState={(triggerProps as { "data-state"?: string })["data-state"]}>
+            {children}
+          </KeepChildState>
         </TooltipPrimitive.Trigger>
         <TooltipContent
           side={side}
