@@ -34,6 +34,11 @@ type TipProps = Omit<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Trig
   children: React.ReactElement<{ disabled?: boolean; style?: React.CSSProperties }>;
 };
 
+// Pointer moves an inner Tip has already answered. Tips nest (a badge inside a button, a
+// button inside a drag-handle header) and a move bubbles to every trigger on its path; as
+// with nested `title`s, the innermost one wins.
+const answered = new WeakSet<Event>();
+
 /**
  * The drop-in for a `title` attribute: `<Tip content="Close"><button>…</button></Tip>`.
  * Needs a TooltipProvider above it (both apps mount one at the root).
@@ -42,6 +47,10 @@ type TipProps = Omit<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Trig
  * no aria-labelledby, a string `content` becomes its aria-label, so icon-only buttons keep their
  * accessible name. A disabled trigger gets no pointer events, so it is wrapped in a focusable
  * span that carries the tooltip instead, as a native title would still show.
+ *
+ * Tips can nest: over an inner trigger only the inner tooltip opens, and a trigger opens on
+ * focus only for its own focus, not a child's (a header's tooltip stays shut while you tab
+ * through its buttons).
  */
 const Tip = React.forwardRef<HTMLElement, TipProps>(
   ({ content, side, align, children, ...triggerProps }, forwardedRef) => {
@@ -50,6 +59,11 @@ const Tip = React.forwardRef<HTMLElement, TipProps>(
     React.useEffect(() => {
       const el = ownRef.current;
       if (!el || !label) return;
+      // Only elements that take a name: ARIA prohibits aria-label on a plain span or div.
+      const nameable = el.matches(
+        "button, a[href], input, select, textarea, [role]:not([role=presentation]):not([role=none]):not([role=generic])",
+      );
+      if (!nameable) return;
       // After render, from the DOM: does the trigger have a name of its own? (An aria-label we
       // set earlier is ours to update.)
       const ownName =
@@ -85,7 +99,24 @@ const Tip = React.forwardRef<HTMLElement, TipProps>(
     );
     return (
       <TooltipPrimitive.Root>
-        <TooltipPrimitive.Trigger asChild ref={disabled ? undefined : setRef} {...triggerProps}>
+        <TooltipPrimitive.Trigger
+          asChild
+          ref={disabled ? undefined : setRef}
+          {...triggerProps}
+          // These run before Radix's own handlers, which skip a defaultPrevented event. (Neither
+          // event has a default action, so preventDefault changes nothing else.) Skipping the
+          // handler, rather than refusing the open, also keeps Radix from announcing an open
+          // that would close the inner tooltip.
+          onPointerMove={(event) => {
+            triggerProps.onPointerMove?.(event);
+            if (answered.has(event.nativeEvent)) event.preventDefault();
+            else answered.add(event.nativeEvent);
+          }}
+          onFocus={(event) => {
+            triggerProps.onFocus?.(event);
+            if (event.target !== event.currentTarget) event.preventDefault();
+          }}
+        >
           {trigger}
         </TooltipPrimitive.Trigger>
         <TooltipContent side={side} align={align}>

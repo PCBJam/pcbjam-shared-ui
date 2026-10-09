@@ -29,8 +29,11 @@ elements. Apps compose these components and never restyle the primitives.
   applies at once, a Checkbox for a choice that is submitted or a list selection.
 - `Tip` replaces a `title` attribute: `<Tip content="Close"><button>…</button></Tip>`. Like
   `title`, it names an icon-only trigger (its text becomes the aria-label when the trigger has
-  no name of its own), and it still shows on a disabled trigger. It needs one
-  `TooltipProvider` above it, at the app root.
+  no name of its own; only on elements that take a name, never a plain span or div), and it
+  still shows on a disabled trigger. Tips nest like titles: over an inner trigger only the
+  inner tooltip opens, and a trigger opens on focus only for its own focus. It needs one
+  `TooltipProvider` above it, at the app root (a test harness that mounts a component alone
+  needs one too).
 - Tests: a Select or Combobox trigger carries the chosen value in `data-value`, and each
   option its value in `data-option-value`. Pick one with a click on the trigger, then on
   `[role=option][data-option-value="…"]`.
