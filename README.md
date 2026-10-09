@@ -53,4 +53,5 @@ The editor pauses its guide overlay while a dialog is open. It does that through
 
 ## Licence
 
-MIT, see `LICENSE`. The components are derived from shadcn/ui (MIT).
+MIT, see `LICENSE`. The components are derived from shadcn/ui (MIT); its notice is in
+`THIRD_PARTY_NOTICES.md`.

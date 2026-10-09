@@ -16,7 +16,8 @@
   },
   "files": [
     "src",
-    "tailwind-preset.js"
+    "tailwind-preset.js",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
