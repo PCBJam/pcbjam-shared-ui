@@ -27,6 +27,10 @@ elements. Apps compose these components and never restyle the primitives.
   `"switch"`, so Playwright's `check()` and `toBeChecked()` work as on native inputs.
   `onCheckedChange` gets `true`, `false` or `"indeterminate"`. Use a Switch for a setting that
   applies at once, a Checkbox for a choice that is submitted or a list selection.
+- `Tip` replaces a `title` attribute: `<Tip content="Close"><button>…</button></Tip>`. Like
+  `title`, it names an icon-only trigger (its text becomes the aria-label when the trigger has
+  no name of its own), and it still shows on a disabled trigger. It needs one
+  `TooltipProvider` above it, at the app root.
 - Tests: a Select or Combobox trigger carries the chosen value in `data-value`, and each
   option its value in `data-option-value`. Pick one with a click on the trigger, then on
   `[role=option][data-option-value="…"]`.

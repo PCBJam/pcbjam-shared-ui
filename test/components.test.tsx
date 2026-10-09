@@ -18,11 +18,13 @@ import {
   SelectValue,
   Switch,
   Tabs,
+  Tip,
   TabsList,
   TabsTrigger,
   Toggle,
   ToggleGroup,
   ToggleGroupItem,
+  TooltipProvider,
 } from "../src";
 
 describe("components render with their token classes", () => {
@@ -170,5 +172,23 @@ describe("Checkbox, RadioGroup and Switch expose the roles Playwright's check() 
 
   it("Switch: role switch with aria-checked", () => {
     expect(renderToStaticMarkup(<Switch checked aria-label="grant git" />)).toMatch(/role="switch" aria-checked="true"/);
+  });
+});
+
+describe("Tip", () => {
+  it("wraps the trigger without a native title", () => {
+    const html = renderToStaticMarkup(
+      <TooltipProvider>
+        <Tip content="Close">
+          <button type="button">x</button>
+        </Tip>
+      </TooltipProvider>,
+    );
+    expect(html).toMatch(/^<button [^>]*data-state="closed"/);
+    expect(html).not.toContain("title=");
+  });
+
+  it("renders the child alone when there is no content", () => {
+    expect(renderToStaticMarkup(<Tip content="">{<button type="button">x</button>}</Tip>)).toBe('<button type="button">x</button>');
   });
 });
