@@ -6,6 +6,7 @@ import {
   Card,
   Checkbox,
   CardContent,
+  Code,
   Combobox,
   DropdownMenu,
   DropdownMenuTrigger,
@@ -108,6 +109,29 @@ describe("Select and Combobox triggers expose their value", () => {
     );
     expect(empty).toContain("Pick a branch");
     expect(empty).toContain('data-placeholder=""');
+  });
+});
+
+describe("Badge count and Code", () => {
+  it("a count badge is a 16px pill whatever its shape prop says", () => {
+    const html = renderToStaticMarkup(
+      <Badge size="count" tone="primary" variant="solid">
+        12
+      </Badge>,
+    );
+    expect(html).toContain("rounded-full");
+    expect(html).not.toContain("rounded-md");
+    expect(html).toContain("h-4");
+    expect(html).toContain("bg-primary");
+  });
+
+  it("Code is a code element on a muted chip; layout classes win", () => {
+    expect(renderToStaticMarkup(<Code>a1b2c3d</Code>)).toBe(
+      '<code class="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">a1b2c3d</code>',
+    );
+    const box = renderToStaticMarkup(<Code className="block px-2 py-1 text-sm">ssh-ed25519 AAAA</Code>);
+    expect(box).toContain("px-2 py-1 text-sm");
+    expect(box).not.toMatch(/px-1\.5|py-0\.5|text-xs/);
   });
 });
 

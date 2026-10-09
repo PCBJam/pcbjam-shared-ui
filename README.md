@@ -18,7 +18,10 @@ elements. Apps compose these components and never restyle the primitives.
   long lists (branches, repositories, symbols).
 - `Badge` takes a `tone` (neutral, primary, success, warning, danger, info, preview) and a
   `variant` (soft, outline, solid). The tones are tokens in `theme.css` with their own dark
-  values; each clears 4.5:1 on its 15% tint in both themes.
+  values; each clears 4.5:1 on its 15% tint in both themes. `size="count"` is the round
+  number on an icon or row (unread, changed files).
+- `Code` is inline code or an id, sha, path or key: monospace on a muted chip. With layout
+  classes it is a copyable value box.
 - `Tabs` switch panels (`TabsList` variant `segmented`, `underline`, or `rail`: a vertical
   column of icon tabs). `ToggleGroup` picks one (type="single", items are radios) or several
   values; `variant="segmented"` is the segmented control. A single group ignores a click

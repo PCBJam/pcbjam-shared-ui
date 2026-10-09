@@ -30,15 +30,21 @@ const badgeVariants = cva(
       size: {
         default: "px-2 py-0.5 text-xs",
         sm: "px-1.5 text-[11px] leading-4",
+        // A count on an icon or a row (unread, changed files): a 16px pill that grows with the
+        // digits. 3px of padding plus the 1px border is the 4px a bare bubble had.
+        count: "h-4 min-w-4 justify-center px-[3px] text-[10px] font-semibold leading-4",
       },
       shape: {
         rounded: "rounded-md",
         pill: "rounded-full",
       },
     },
-    compoundVariants: TONES.flatMap((tone) =>
-      (["soft", "outline", "solid"] as const).map((variant) => ({ tone, variant, class: TONE_CLASSES[tone][variant] })),
-    ),
+    compoundVariants: [
+      ...TONES.flatMap((tone) =>
+        (["soft", "outline", "solid"] as const).map((variant) => ({ tone, variant, class: TONE_CLASSES[tone][variant] })),
+      ),
+      { size: "count" as const, class: "rounded-full" },
+    ],
     defaultVariants: { tone: "neutral", variant: "soft", size: "default", shape: "rounded" },
   },
 );
