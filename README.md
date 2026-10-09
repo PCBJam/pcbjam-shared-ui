@@ -30,7 +30,8 @@ elements. Apps compose these components and never restyle the primitives.
 - `Tip` replaces a `title` attribute: `<Tip content="Close"><button>…</button></Tip>`. Like
   `title`, it names an icon-only trigger (its text becomes the aria-label when the trigger has
   no name of its own; only on elements that take a name, never a plain span or div), and it
-  still shows on a disabled trigger. Tips nest like titles: over an inner trigger only the
+  still shows on a disabled trigger. Like a title, it closes when the pointer leaves and lets
+  clicks through. Tips nest like titles: over an inner trigger only the
   inner tooltip opens, and a trigger opens on focus only for its own focus. It needs one
   `TooltipProvider` above it, at the app root (a test harness that mounts a component alone
   needs one too).

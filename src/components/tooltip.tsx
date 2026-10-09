@@ -17,7 +17,8 @@ const TooltipContent = React.forwardRef<
       className={cn(
         // Above everything: the editor's own overlays reach z-[80], and a tooltip on one of
         // their buttons must not open behind the panel it belongs to.
-        "z-[1000] max-w-72 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+        // pre-line and break-words: a title's "\n" still breaks the line, and a long path wraps.
+        "z-[1000] max-w-72 overflow-hidden whitespace-pre-line break-words rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
         className,
       )}
       {...props}
@@ -31,7 +32,7 @@ type TipProps = Omit<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Trig
   content: React.ReactNode;
   side?: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>["side"];
   align?: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>["align"];
-  children: React.ReactElement<{ disabled?: boolean; style?: React.CSSProperties }>;
+  children: React.ReactElement;
 };
 
 // Pointer moves an inner Tip has already answered. Tips nest (a badge inside a button, a
@@ -45,12 +46,15 @@ const answered = new WeakSet<Event>();
  *
  * Like `title`, it names an unlabelled trigger: when the trigger has no text, no aria-label and
  * no aria-labelledby, a string `content` becomes its aria-label, so icon-only buttons keep their
- * accessible name. A disabled trigger gets no pointer events, so it is wrapped in a focusable
- * span that carries the tooltip instead, as a native title would still show.
+ * accessible name. It shows on a disabled button too, as a title does: browsers send pointer
+ * events to disabled controls, so the button stays the trigger and keeps its own layout.
  *
  * Tips can nest: over an inner trigger only the inner tooltip opens, and a trigger opens on
  * focus only for its own focus, not a child's (a header's tooltip stays shut while you tab
  * through its buttons).
+ *
+ * Like a title, the tooltip closes as soon as the pointer leaves the trigger and never takes a
+ * click: one left open over the next thing you click (or a test clicks) lets the click through.
  */
 const Tip = React.forwardRef<HTMLElement, TipProps>(
   ({ content, side, align, children, ...triggerProps }, forwardedRef) => {
@@ -80,28 +84,11 @@ const Tip = React.forwardRef<HTMLElement, TipProps>(
       if (typeof forwardedRef === "function") forwardedRef(node);
       else if (forwardedRef) forwardedRef.current = node;
     };
-    const disabled = children.props.disabled === true;
-    // The child's own ref, kept when the disabled path clones it with ours.
-    const childRef = (children as unknown as { ref?: React.Ref<HTMLElement> }).ref;
-    const trigger = disabled ? (
-      <span tabIndex={0} className="inline-flex">
-        {React.cloneElement(children as React.ReactElement<Record<string, unknown>>, {
-          style: { ...children.props.style, pointerEvents: "none" },
-          ref: (node: HTMLElement | null) => {
-            setRef(node);
-            if (typeof childRef === "function") childRef(node);
-            else if (childRef) (childRef as React.MutableRefObject<HTMLElement | null>).current = node;
-          },
-        })}
-      </span>
-    ) : (
-      children
-    );
     return (
-      <TooltipPrimitive.Root>
+      <TooltipPrimitive.Root disableHoverableContent>
         <TooltipPrimitive.Trigger
           asChild
-          ref={disabled ? undefined : setRef}
+          ref={setRef}
           {...triggerProps}
           // These run before Radix's own handlers, which skip a defaultPrevented event. (Neither
           // event has a default action, so preventDefault changes nothing else.) Skipping the
@@ -117,9 +104,17 @@ const Tip = React.forwardRef<HTMLElement, TipProps>(
             if (event.target !== event.currentTarget) event.preventDefault();
           }}
         >
-          {trigger}
+          {children}
         </TooltipPrimitive.Trigger>
-        <TooltipContent side={side} align={align}>
+        <TooltipContent
+          side={side}
+          align={align}
+          // Clicks pass through, to whatever is under the tooltip. Set on Radix's positioning
+          // wrapper, which is the content's size; the content inherits it.
+          ref={(node) => {
+            if (node?.parentElement) node.parentElement.style.pointerEvents = "none";
+          }}
+        >
           {content}
         </TooltipContent>
       </TooltipPrimitive.Root>
