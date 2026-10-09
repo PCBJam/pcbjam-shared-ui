@@ -13,6 +13,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  Toggle,
+  ToggleGroup,
+  ToggleGroupItem,
 } from "../src";
 
 describe("components render with their token classes", () => {
@@ -107,5 +113,36 @@ describe("Badge", () => {
     expect(renderToStaticMarkup(<Badge tone="success">ready</Badge>)).toContain("bg-success/15 text-success");
     expect(renderToStaticMarkup(<Badge tone="danger" variant="outline">failed</Badge>)).toContain("border-danger/40 text-danger");
     expect(renderToStaticMarkup(<Badge tone="primary" variant="solid" shape="pill">3</Badge>)).toMatch(/bg-primary text-primary-foreground.*rounded-full|rounded-full.*bg-primary text-primary-foreground/);
+  });
+});
+
+describe("Tabs, ToggleGroup and Toggle keep the ARIA roles specs rely on", () => {
+  it("Tabs: triggers are tabs, the active one selected", () => {
+    const html = renderToStaticMarkup(
+      <Tabs value="b">
+        <TabsList variant="underline">
+          <TabsTrigger value="a">A</TabsTrigger>
+          <TabsTrigger value="b">B</TabsTrigger>
+        </TabsList>
+      </Tabs>,
+    );
+    expect(html).toMatch(/role="tab"[^>]*aria-selected="false"[^>]*>A</);
+    expect(html).toMatch(/role="tab"[^>]*aria-selected="true"[^>]*>B</);
+    expect(html).toContain("border-b");
+  });
+
+  it("ToggleGroup single: items are radios, the chosen one checked", () => {
+    const html = renderToStaticMarkup(
+      <ToggleGroup type="single" variant="segmented" value="7d" onValueChange={() => {}}>
+        <ToggleGroupItem value="24h">24 h</ToggleGroupItem>
+        <ToggleGroupItem value="7d">7 d</ToggleGroupItem>
+      </ToggleGroup>,
+    );
+    expect(html).toMatch(/role="radio" aria-checked="true"[^>]*>7 d</);
+    expect(html).toContain("bg-muted");
+  });
+
+  it("Toggle: a pressed button", () => {
+    expect(renderToStaticMarkup(<Toggle pressed>Comments</Toggle>)).toMatch(/<button [^>]*aria-pressed="true"/);
   });
 });

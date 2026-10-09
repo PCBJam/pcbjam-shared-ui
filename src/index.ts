@@ -50,3 +50,6 @@ export {
   SelectScrollDownButton,
 } from "./components/select";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/tooltip";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
+export { Toggle, toggleVariants } from "./components/toggle";
+export { ToggleGroup, ToggleGroupItem } from "./components/toggle-group";

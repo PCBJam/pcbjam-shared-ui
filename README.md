@@ -19,6 +19,10 @@ elements. Apps compose these components and never restyle the primitives.
 - `Badge` takes a `tone` (neutral, primary, success, warning, danger, info, preview) and a
   `variant` (soft, outline, solid). The tones are tokens in `theme.css` with their own dark
   values; each clears 4.5:1 on its 15% tint in both themes.
+- `Tabs` switch panels (`TabsList` variant `segmented` or `underline`). `ToggleGroup` picks
+  one (type="single", items are radios) or several values; `variant="segmented"` is the
+  segmented control. A single group ignores a click that would clear its value unless
+  `deselectable` is set. `Toggle` is one pressed/unpressed button.
 - Tests: a Select or Combobox trigger carries the chosen value in `data-value`, and each
   option its value in `data-option-value`. Pick one with a click on the trigger, then on
   `[role=option][data-option-value="…"]`.
