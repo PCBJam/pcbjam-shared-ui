@@ -22,6 +22,7 @@ elements. Apps compose these components and never restyle the primitives.
   number on an icon or row (unread, changed files).
 - `Code` is inline code or an id, sha, path or key: monospace on a muted chip. With layout
   classes it is a copyable value box.
+- `Kbd` is a key or shortcut (⌘\, Esc), shadcn's Kbd: a hint that takes no clicks.
 - `Tabs` switch panels (`TabsList` variant `segmented`, `underline`, or `rail`: a vertical
   column of icon tabs). `ToggleGroup` picks one (type="single", items are radios) or several
   values; `variant="segmented"` is the segmented control. A single group ignores a click

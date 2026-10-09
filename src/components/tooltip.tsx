@@ -40,11 +40,20 @@ type TipProps = Omit<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Trig
 // child's: a tab, toggle or switch inside a Tip would lose "active" or "on", and the styles
 // that read it. This drops the tooltip's and passes on one that came from a parent trigger
 // (a menu's open or closed).
+//
+// It also gives a disabled trigger its pointer events back. Button and Toggle turn them off
+// while disabled, so their tooltip, often the one that says why ("An import is in progress"),
+// never opened; browsers still send pointer events, but not clicks, to a disabled button.
 const KeepChildState = React.forwardRef<
   HTMLElement,
   React.HTMLAttributes<HTMLElement> & { "data-state"?: string; parentState?: string }
->(({ "data-state": _tooltipState, parentState, ...props }, ref) => (
-  <Slot ref={ref} {...props} {...(parentState !== undefined && { "data-state": parentState })} />
+>(({ "data-state": _tooltipState, parentState, className, ...props }, ref) => (
+  <Slot
+    ref={ref}
+    {...props}
+    className={cn("disabled:pointer-events-auto", className)}
+    {...(parentState !== undefined && { "data-state": parentState })}
+  />
 ));
 KeepChildState.displayName = "KeepChildState";
 
@@ -59,8 +68,9 @@ const answered = new WeakSet<Event>();
  *
  * Like `title`, it names an unlabelled trigger: when the trigger has no text, no aria-label and
  * no aria-labelledby, a string `content` becomes its aria-label, so icon-only buttons keep their
- * accessible name. It shows on a disabled button too, as a title does: browsers send pointer
- * events to disabled controls, so the button stays the trigger and keeps its own layout.
+ * accessible name. It shows on a disabled button too: browsers send pointer events (not clicks)
+ * to disabled controls, so the button stays the trigger and keeps its own layout, and Tip turns
+ * back on the pointer events that Button and Toggle switch off while disabled.
  *
  * Tips can nest: over an inner trigger only the inner tooltip opens, and a trigger opens on
  * focus only for its own focus, not a child's (a header's tooltip stays shut while you tab

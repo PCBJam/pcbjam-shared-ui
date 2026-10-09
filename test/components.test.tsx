@@ -11,6 +11,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   Input,
+  Kbd,
   Label,
   RadioGroup,
   RadioGroupItem,
@@ -135,6 +136,15 @@ describe("Badge count and Code", () => {
   });
 });
 
+describe("Kbd", () => {
+  it("is a kbd element that takes no clicks; the caller's classes win", () => {
+    const html = renderToStaticMarkup(<Kbd className="px-1.5 text-[10px]">⌘\</Kbd>);
+    expect(html).toMatch(/^<kbd class="[^"]*pointer-events-none/);
+    expect(html).toContain("px-1.5");
+    expect(html).not.toMatch(/ px-1 | text-xs /);
+  });
+});
+
 describe("Badge", () => {
   it("defaults to a soft neutral label", () => {
     const html = renderToStaticMarkup(<Badge>pending</Badge>);
@@ -245,6 +255,19 @@ describe("Tip", () => {
     );
     expect(html).toMatch(/<button [^>]*data-state="active"/);
     expect(html).not.toMatch(/data-state="closed"/);
+  });
+
+  it("turns a disabled Button's pointer events back on, so its tooltip can open", () => {
+    const html = renderToStaticMarkup(
+      <TooltipProvider>
+        <Tip content="An import is in progress">
+          <Button disabled>Upload</Button>
+        </Tip>
+      </TooltipProvider>,
+    );
+    expect(html).toContain("disabled:pointer-events-auto");
+    expect(html).not.toContain("disabled:pointer-events-none");
+    expect(renderToStaticMarkup(<Button disabled>Upload</Button>)).toContain("disabled:pointer-events-none");
   });
 
   it("passes a parent trigger's data-state through (a menu's open)", () => {
