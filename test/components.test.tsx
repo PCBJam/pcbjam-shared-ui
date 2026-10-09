@@ -47,6 +47,37 @@ describe("components render with their token classes", () => {
     expect(html).not.toContain("h-9");
   });
 
+  it("Button: the boxed sizes set the type, size text takes the surrounding font", () => {
+    const boxed = renderToStaticMarkup(<Button size="sm">Go</Button>);
+    expect(boxed).toContain("text-xs");
+    expect(boxed).toContain("font-medium");
+    expect(boxed).toContain("[&amp;_svg]:size-4");
+    const text = renderToStaticMarkup(
+      <Button variant="inline" size="text">
+        Retry
+      </Button>,
+    );
+    expect(text).not.toMatch(/text-(xs|sm)|font-medium|size-4|h-9|px-4/);
+    expect(text).toContain("whitespace-normal");
+  });
+
+  it("Button: link and inline are text in the surrounding colour", () => {
+    const link = renderToStaticMarkup(
+      <Button variant="link" size="text">
+        Or use SSH instead
+      </Button>,
+    );
+    expect(link).toContain("hover:underline");
+    expect(link).not.toMatch(/text-primary|bg-/);
+    const inline = renderToStaticMarkup(
+      <Button variant="inline" size="text">
+        let PCBJam generate one
+      </Button>,
+    );
+    expect(inline).toMatch(/class="[^"]*(^|\s)underline(\s|")/);
+    expect(inline).not.toMatch(/text-primary|bg-/);
+  });
+
   it("Button: asChild renders the child element", () => {
     const html = renderToStaticMarkup(
       <Button asChild>

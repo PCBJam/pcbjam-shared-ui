@@ -4,7 +4,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  // The type and icon size live in the boxed sizes, so size="text" can take the surrounding font.
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -16,13 +17,20 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        // A text action on its own ("Or use SSH instead"): the surrounding colour, underlined
+        // on hover. Goes with size="text".
+        link: "underline-offset-2 hover:underline",
+        // An action inside a sentence ("… or let PCBJam generate one"): always underlined, so it
+        // stands out from the words around it without a colour of its own. Goes with size="text".
+        inline: "underline underline-offset-2",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: "h-9 px-4 py-2 text-sm font-medium [&_svg]:size-4",
+        sm: "h-8 rounded-md px-3 text-xs font-medium [&_svg]:size-4",
+        lg: "h-10 rounded-md px-8 text-sm font-medium [&_svg]:size-4",
+        icon: "h-9 w-9 text-sm font-medium [&_svg]:size-4",
+        // No box: the button is its text, in the surrounding font, and wraps like it.
+        text: "h-auto gap-1 whitespace-normal p-0",
       },
     },
     defaultVariants: {
