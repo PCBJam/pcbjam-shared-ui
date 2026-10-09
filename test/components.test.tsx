@@ -7,6 +7,8 @@ import {
   Checkbox,
   CardContent,
   Combobox,
+  DropdownMenu,
+  DropdownMenuTrigger,
   Input,
   Label,
   RadioGroup,
@@ -192,6 +194,22 @@ describe("Tip", () => {
 
   it("renders the child alone when there is no content", () => {
     expect(renderToStaticMarkup(<Tip content="">{<button type="button">x</button>}</Tip>)).toBe('<button type="button">x</button>');
+  });
+
+  it("passes a parent trigger's props to the child when there is no content", () => {
+    // <DropdownMenuTrigger asChild><Tip content={busy ? "…" : undefined}>: the menu's handlers
+    // and ARIA must reach the button whether or not the tooltip shows.
+    const html = renderToStaticMarkup(
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Tip content={undefined}>
+            <button type="button">Upload</button>
+          </Tip>
+        </DropdownMenuTrigger>
+      </DropdownMenu>,
+    );
+    expect(html).toMatch(/^<button [^>]*aria-haspopup="menu"/);
+    expect(html).toMatch(/^<button [^>]*data-state="closed"/);
   });
 });
 

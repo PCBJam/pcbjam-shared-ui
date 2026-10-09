@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { cn } from "../lib/utils";
 
@@ -28,7 +29,7 @@ const TooltipContent = React.forwardRef<
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 type TipProps = Omit<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Trigger>, "content"> & {
-  /** The tooltip text; nothing (or "") renders the child alone. */
+  /** The tooltip text; nothing (or "") renders the child with no tooltip. */
   content: React.ReactNode;
   side?: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>["side"];
   align?: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>["align"];
@@ -78,12 +79,20 @@ const Tip = React.forwardRef<HTMLElement, TipProps>(
       el.setAttribute("aria-label", label);
       el.dataset.tipLabel = "true";
     }, [label]);
-    if (content == null || content === "") return children;
     const setRef = (node: HTMLElement | null) => {
       ownRef.current = node;
       if (typeof forwardedRef === "function") forwardedRef(node);
       else if (forwardedRef) forwardedRef.current = node;
     };
+    // No tooltip, but the child still takes what a parent passes through Tip: under a
+    // `DropdownMenuTrigger asChild` those are the menu's handlers, ARIA and ref.
+    if (content == null || content === "") {
+      return (
+        <Slot ref={setRef} {...triggerProps}>
+          {children}
+        </Slot>
+      );
+    }
     return (
       <TooltipPrimitive.Root disableHoverableContent>
         <TooltipPrimitive.Trigger
