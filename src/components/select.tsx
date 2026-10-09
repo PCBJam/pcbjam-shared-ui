@@ -40,7 +40,13 @@ function Select({ value, defaultValue, onValueChange, ...props }: React.Componen
       <SelectPrimitive.Root
         value={toRadix(value)}
         defaultValue={toRadix(defaultValue)}
-        onValueChange={(v) => onValueChange?.(v === EMPTY ? "" : v)}
+        onValueChange={(v) => {
+          // A raw "" is never a choice here (empty items arrive as EMPTY). Radix sends it when
+          // the hidden form <select> is set to a value whose option has not mounted yet, e.g. a
+          // value and its options changing in one render; passing it on would wipe the value.
+          if (v === "") return;
+          onValueChange?.(v === EMPTY ? "" : v);
+        }}
         {...props}
       />
     </SelectStateContext.Provider>
