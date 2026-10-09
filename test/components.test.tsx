@@ -1,6 +1,18 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { Button, Card, CardContent, Input, Label } from "../src";
+import {
+  Button,
+  Card,
+  CardContent,
+  Combobox,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../src";
 
 describe("components render with their token classes", () => {
   it("Button: default and outline variants", () => {
@@ -35,5 +47,49 @@ describe("components render with their token classes", () => {
         </Card>,
       ),
     ).toContain("bg-card");
+  });
+});
+
+describe("Select and Combobox triggers expose their value", () => {
+  it("Select: data-value on the trigger, placeholder when nothing is chosen", () => {
+    const html = renderToStaticMarkup(
+      <Select value="">
+        <SelectTrigger data-testid="kind">
+          <SelectValue placeholder="All kinds" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="symbol">Symbols</SelectItem>
+        </SelectContent>
+      </Select>,
+    );
+    expect(html).toMatch(/<button [^>]*data-value=""/);
+    expect(html).toContain("All kinds");
+  });
+
+  it("Select: a controlled value lands in data-value", () => {
+    const html = renderToStaticMarkup(
+      <Select value="footprint">
+        <SelectTrigger>
+          <SelectValue />
+        </SelectTrigger>
+      </Select>,
+    );
+    expect(html).toContain('data-value="footprint"');
+  });
+
+  it("Combobox: shows the chosen option's label, or the placeholder", () => {
+    const options = [
+      { value: "main", label: "main", group: "Branches" },
+      { value: "v1.0", label: "v1.0", group: "Tags" },
+    ];
+    const chosen = renderToStaticMarkup(<Combobox options={options} value="v1.0" onValueChange={() => {}} />);
+    expect(chosen).toContain('data-value="v1.0"');
+    expect(chosen).toContain(">v1.0</span>");
+    expect(chosen).not.toContain("data-placeholder");
+    const empty = renderToStaticMarkup(
+      <Combobox options={options} value="" placeholder="Pick a branch" onValueChange={() => {}} />,
+    );
+    expect(empty).toContain("Pick a branch");
+    expect(empty).toContain('data-placeholder=""');
   });
 });

@@ -1,5 +1,15 @@
 export { cn } from "./lib/utils";
 export { Button, buttonVariants, type ButtonProps } from "./components/button";
+export { Combobox, type ComboboxOption, type ComboboxProps } from "./components/combobox";
+export {
+  Command,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandSeparator,
+} from "./components/command";
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "./components/card";
 export {
   Dialog,
@@ -25,4 +35,17 @@ export {
 } from "./components/dropdown-menu";
 export { Input } from "./components/input";
 export { Label } from "./components/label";
+export { Popover, PopoverTrigger, PopoverAnchor, PopoverContent } from "./components/popover";
+export {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
+} from "./components/select";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/tooltip";

@@ -13,6 +13,12 @@ elements. Apps compose these components and never restyle the primitives.
 - `src/theme.css`: neutral defaults for every token (shadcn's slate theme), for `:root`
   and `.dark`. Import it first; a brand stylesheet loaded after it overrides tokens.
 - `tailwind-preset.js`: maps the tokens to Tailwind colours and radii.
+- `Select` takes `value=""` on an item (Radix alone refuses it), so a native `<select>`'s
+  "All" or "None" option ports over as is. `Combobox` is the Select with a search box, for
+  long lists (branches, repositories, symbols).
+- Tests: a Select or Combobox trigger carries the chosen value in `data-value`, and each
+  option its value in `data-option-value`. Pick one with a click on the trigger, then on
+  `[role=option][data-option-value="…"]`.
 - `components.json`: the target for `npx shadcn add`. Generated files import
   `@/lib/utils`; change that to a relative import (`../lib/utils`), or the import
   guardrail test fails.
@@ -47,7 +53,7 @@ The editor pauses its guide overlay while a dialog is open. It does that through
 ## Guardrails (`pnpm test`)
 
 - Source files import only React, Radix, `class-variance-authority`, `clsx`,
-  `tailwind-merge`, `lucide-react` and each other. Nothing from an app, nothing GPL.
+  `tailwind-merge`, `lucide-react`, `cmdk` and each other. Nothing from an app, nothing GPL.
 - Every installed dependency, direct or transitive, is under MIT, ISC, BSD, 0BSD or
   Apache-2.0.
 
