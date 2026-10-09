@@ -85,6 +85,20 @@ The editor pauses its guide overlay while a dialog is open. It does that through
 - Every installed dependency, direct or transitive, is under MIT, ISC, BSD, 0BSD or
   Apache-2.0.
 
+## The UI rule (`tools/ui-rule.mjs`)
+
+Apps style controls only through this package: a raw `<button>`, `<select>`, `<input>` or
+`<textarea>` with a `className` (or a spread, which can carry one) outside it fails CI. File,
+colour and hidden inputs are exempt. Each app runs it as `pnpm lint:ui`:
+
+```sh
+node <path to this package>/tools/ui-rule.mjs src ui-rule-baseline.json [--update]
+```
+
+Code from before the rule is listed per file in the app's `ui-rule-baseline.json`, and the
+counts may only go down. A file that gains one fails, and so does a file that loses one until
+`--update` lowers the baseline, so the next change cannot quietly take the slot back.
+
 ## Licence
 
 MIT, see `LICENSE`. The components are derived from shadcn/ui (MIT); its notice is in
