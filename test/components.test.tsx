@@ -78,6 +78,26 @@ describe("components render with their token classes", () => {
     expect(inline).not.toMatch(/text-primary|bg-/);
   });
 
+  it("Button: a row is a full-width, square, left-aligned block; plain adds no look", () => {
+    const row = renderToStaticMarkup(
+      <Button variant="ghost" size="row">
+        board.kicad_pcb
+      </Button>,
+    );
+    expect(row).toMatch(/class="[^"]*(^|\s)flex(\s|")/);
+    expect(row).toContain("w-full");
+    expect(row).toContain("justify-start");
+    expect(row).toContain("rounded-none");
+    expect(row).toContain("hover:bg-accent");
+    expect(row).not.toMatch(/text-(xs|sm)|font-medium|h-9|px-4/);
+    const plain = renderToStaticMarkup(
+      <Button variant="plain" size="row">
+        Not on this revision
+      </Button>,
+    );
+    expect(plain).not.toMatch(/bg-|text-primary|underline|hover:/);
+  });
+
   it("Button: asChild renders the child element", () => {
     const html = renderToStaticMarkup(
       <Button asChild>

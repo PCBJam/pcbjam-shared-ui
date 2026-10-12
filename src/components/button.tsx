@@ -23,6 +23,10 @@ const buttonVariants = cva(
         // An action inside a sentence ("… or let PCBJam generate one"): always underlined, so it
         // stands out from the words around it without a colour of its own. Goes with size="text".
         inline: "underline underline-offset-2",
+        // No colour, fill or underline of its own: a region whose content is the affordance (a
+        // disclosure header, a tree row's name), or a control whose surface styles it (the
+        // editor's overlays). Prefer a variant above when one fits.
+        plain: "",
       },
       size: {
         default: "h-9 px-4 py-2 text-sm font-medium [&_svg]:size-4",
@@ -31,6 +35,9 @@ const buttonVariants = cva(
         icon: "h-9 w-9 text-sm font-medium [&_svg]:size-4",
         // No box: the button is its text, in the surrounding font, and wraps like it.
         text: "h-auto gap-1 whitespace-normal p-0",
+        // A full-width list row, laid out left to right in the surrounding font; the list sets
+        // its padding, and a rounded row adds its radius.
+        row: "flex h-auto w-full justify-start whitespace-normal rounded-none text-left",
       },
     },
     defaultVariants: {

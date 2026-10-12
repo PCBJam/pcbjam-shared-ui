@@ -16,7 +16,10 @@ elements. Apps compose these components and never restyle the primitives.
 - `Button` is shadcn's, plus two text variants for `size="text"`, which has no box and takes
   the surrounding font and colour: `variant="link"` is a text action on its own ("Or use SSH
   instead"), underlined on hover; `variant="inline"` is an action inside a sentence ("… or
-  let PCBJam generate one"), always underlined.
+  let PCBJam generate one"), always underlined. `size="row"` is a full-width list row
+  (`variant="ghost"` for a hover fill); `variant="plain"` has no colour, fill or underline
+  of its own, for a region whose content is the affordance (a disclosure header, a tree
+  row's name) or a control on a surface that styles it (the editor's overlays).
 - `Select` takes `value=""` on an item (Radix alone refuses it), so a native `<select>`'s
   "All" or "None" option ports over as is. `Combobox` is the Select with a search box, for
   long lists (branches, repositories, symbols).
