@@ -25,7 +25,7 @@ const toggleVariants = cva(
         // A full-width menu row: icon, label, then anything pushed right with ml-auto.
         row: "w-full justify-start gap-2 whitespace-normal px-2 py-1.5 text-left text-xs font-normal",
         // A bare icon in a dense header or list row; the icon sets the size.
-        xs: "rounded p-0.5",
+        "icon-xs": "rounded p-0.5",
       },
     },
     compoundVariants: [

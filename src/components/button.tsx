@@ -31,8 +31,11 @@ const buttonVariants = cva(
       size: {
         default: "h-9 px-4 py-2 text-sm font-medium [&_svg]:size-4",
         sm: "h-8 rounded-md px-3 text-xs font-medium [&_svg]:size-4",
+        xs: "h-7 rounded-md px-2 text-xs font-medium [&_svg]:size-3.5",
         lg: "h-10 rounded-md px-8 text-sm font-medium [&_svg]:size-4",
         icon: "h-9 w-9 text-sm font-medium [&_svg]:size-4",
+        // A bare icon in a dense header or row (close, collapse); the icon sets the size.
+        "icon-xs": "rounded p-0.5",
         // No box: the button is its text, in the surrounding font, and wraps like it.
         text: "h-auto gap-1 whitespace-normal p-0",
         // A full-width list row, laid out left to right in the surrounding font; the list sets

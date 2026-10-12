@@ -78,6 +78,23 @@ describe("components render with their token classes", () => {
     expect(inline).not.toMatch(/text-primary|bg-/);
   });
 
+  it("Button: xs is a 28px button, icon-xs a bare icon the icon sizes", () => {
+    const xs = renderToStaticMarkup(
+      <Button variant="outline" size="xs">
+        Mark reviewed
+      </Button>,
+    );
+    expect(xs).toContain("h-7");
+    expect(xs).toContain("text-xs");
+    const icon = renderToStaticMarkup(
+      <Button variant="ghost" size="icon-xs" aria-label="Close">
+        x
+      </Button>,
+    );
+    expect(icon).toContain("p-0.5");
+    expect(icon).not.toMatch(/size-4|h-9|text-sm/);
+  });
+
   it("Button: a row is a full-width, square, left-aligned block; plain adds no look", () => {
     const row = renderToStaticMarkup(
       <Button variant="ghost" size="row">
@@ -253,7 +270,7 @@ describe("Tabs, ToggleGroup and Toggle keep the ARIA roles specs rely on", () =>
     // The caller's hover fill replaces the variant's.
     expect(row).toContain("hover:bg-black/5");
     expect(row).not.toContain("hover:bg-accent");
-    expect(renderToStaticMarkup(<Toggle variant="ghost" size="xs">x</Toggle>)).not.toContain("size-4");
+    expect(renderToStaticMarkup(<Toggle variant="ghost" size="icon-xs">x</Toggle>)).not.toContain("size-4");
   });
 });
 

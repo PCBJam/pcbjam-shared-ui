@@ -20,6 +20,8 @@ elements. Apps compose these components and never restyle the primitives.
   (`variant="ghost"` for a hover fill); `variant="plain"` has no colour, fill or underline
   of its own, for a region whose content is the affordance (a disclosure header, a tree
   row's name) or a control on a surface that styles it (the editor's overlays).
+  `size="xs"` is a 28px button (row actions, admin chips); `size="icon-xs"` is a bare icon
+  in a dense header or row (close, collapse), as on Toggle.
 - `Select` takes `value=""` on an item (Radix alone refuses it), so a native `<select>`'s
   "All" or "None" option ports over as is. `Combobox` is the Select with a search box, for
   long lists (branches, repositories, symbols).
@@ -35,7 +37,7 @@ elements. Apps compose these components and never restyle the primitives.
   values; `variant="segmented"` is the segmented control. A single group ignores a click
   that would clear its value unless `deselectable` is set. `Toggle` is one pressed/unpressed
   button; `variant="ghost"` has no pressed look of its own (style it with `data-[state=on]:`),
-  `size="row"` makes a full-width menu row and `size="xs"` a bare icon.
+  `size="row"` makes a full-width menu row and `size="icon-xs"` a bare icon.
 - `Checkbox`, `RadioGroup` and `Switch` are buttons with `role="checkbox"`, `"radio"` and
   `"switch"`, so Playwright's `check()` and `toBeChecked()` work as on native inputs.
   `onCheckedChange` gets `true`, `false` or `"indeterminate"`. Use a Switch for a setting that
