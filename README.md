@@ -38,6 +38,14 @@ elements. Apps compose these components and never restyle the primitives.
   that would clear its value unless `deselectable` is set. `Toggle` is one pressed/unpressed
   button; `variant="ghost"` has no pressed look of its own (style it with `data-[state=on]:`),
   `size="row"` makes a full-width menu row and `size="icon-xs"` a bare icon.
+- `RadioCard` is a whole card as one radio of a `RadioGroup` (templates, licences, project
+  sources): no dot, the checked card wears the primary border and ring, arrow keys move the choice.
+- `Slider` is shadcn's on Radix: the same track in every browser, arrow keys, Shift+arrow for ten
+  steps, Home and End. `thumbLabel` names the thumb, which carries the slider role.
+- `SearchInput` is an Input with a search icon and, given `onClear`, a clear button; `size="sm"`
+  is 32px. `className` lays out the field, `inputClassName` styles the input, and every other prop
+  goes to the input.
+- `Toggle` also takes `size="xs"` (28px), matching Button's.
 - `Checkbox`, `RadioGroup` and `Switch` are buttons with `role="checkbox"`, `"radio"` and
   `"switch"`, so Playwright's `check()` and `toBeChecked()` work as on native inputs.
   `onCheckedChange` gets `true`, `false` or `"indeterminate"`. Use a Switch for a setting that

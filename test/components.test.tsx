@@ -13,13 +13,16 @@ import {
   Input,
   Kbd,
   Label,
+  RadioCard,
   RadioGroup,
   RadioGroupItem,
+  SearchInput,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Slider,
   Switch,
   Tabs,
   Tip,
@@ -113,6 +116,20 @@ describe("components render with their token classes", () => {
       </Button>,
     );
     expect(plain).not.toMatch(/bg-|text-primary|underline|hover:/);
+  });
+
+  it("SearchInput: props reach the input; a clear button only with onClear and text", () => {
+    const html = renderToStaticMarkup(
+      <SearchInput value="board" onChange={() => {}} onClear={() => {}} clearLabel="Clear the filter" aria-label="Filter files" data-testid="tree-filter" />,
+    );
+    expect(html).toMatch(/<input [^>]*aria-label="Filter files"[^>]*data-testid="tree-filter"|<input [^>]*data-testid="tree-filter"[^>]*aria-label="Filter files"/);
+    expect(html).toContain('aria-label="Clear the filter"');
+    expect(renderToStaticMarkup(<SearchInput value="" onChange={() => {}} onClear={() => {}} />)).not.toContain("<button");
+    expect(renderToStaticMarkup(<SearchInput size="sm" value="x" onChange={() => {}} />)).toMatch(/<input [^>]*h-8/);
+  });
+
+  it("Toggle: xs matches Button xs", () => {
+    expect(renderToStaticMarkup(<Toggle size="xs">Blink</Toggle>)).toContain("h-7");
   });
 
   it("Button: asChild renders the child element", () => {
@@ -289,6 +306,31 @@ describe("Checkbox, RadioGroup and Switch expose the roles Playwright's check() 
     );
     expect(html).toContain('role="radiogroup"');
     expect(html).toMatch(/role="radio" aria-checked="true"[^>]*aria-label="This folder"|aria-label="This folder"[^>]*role="radio" aria-checked="true"/);
+  });
+
+  it("RadioCard: a whole card as a radio, no dot, the checked one marked by data-state", () => {
+    const html = renderToStaticMarkup(
+      <RadioGroup value="jlcpcb">
+        <RadioCard value="pcbway" data-testid="nkp-template-pcbway">
+          PCBWay
+        </RadioCard>
+        <RadioCard value="jlcpcb" data-testid="nkp-template-jlcpcb">
+          JLCPCB
+        </RadioCard>
+      </RadioGroup>,
+    );
+    expect(html).toMatch(/<button [^>]*role="radio" aria-checked="true" data-state="checked"[^>]*data-testid="nkp-template-jlcpcb"/);
+    expect(html).toMatch(/aria-checked="false"[^>]*data-testid="nkp-template-pcbway"/);
+    expect(html).toContain("data-[state=checked]:border-primary");
+    // No indicator dot: the card's own content is all it shows.
+    expect(html).not.toContain("rounded-full");
+  });
+
+  it("Slider: the thumb takes the slider role and the name", () => {
+    const html = renderToStaticMarkup(<Slider value={[0.25]} min={0} max={1} step={0.01} thumbLabel="Cross-fade" />);
+    expect(html).toMatch(/role="slider"[^>]*aria-label="Cross-fade"|aria-label="Cross-fade"[^>]*role="slider"/);
+    // Server rendering leaves aria-valuenow to the client; the range already spans the value.
+    expect(html).toContain("left:0%;right:75%");
   });
 
   it("Switch: role switch with aria-checked", () => {

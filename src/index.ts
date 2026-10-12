@@ -36,6 +36,8 @@ export {
   DropdownMenuSeparator,
 } from "./components/dropdown-menu";
 export { Input } from "./components/input";
+export { SearchInput, type SearchInputProps } from "./components/search-input";
+export { Slider } from "./components/slider";
 export { Label } from "./components/label";
 export { Popover, PopoverTrigger, PopoverAnchor, PopoverContent } from "./components/popover";
 export {
@@ -57,7 +59,7 @@ export { Tip, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from ".
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
 export { Toggle, toggleVariants } from "./components/toggle";
 export { ToggleGroup, ToggleGroupItem } from "./components/toggle-group";
-export { RadioGroup, RadioGroupItem } from "./components/radio-group";
+export { RadioCard, RadioGroup, RadioGroupItem } from "./components/radio-group";
 export { Switch } from "./components/switch";
 export {
   Table,

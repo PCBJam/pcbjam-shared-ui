@@ -22,6 +22,7 @@ const toggleVariants = cva(
       size: {
         default: "h-9 min-w-9 px-3 [&_svg]:size-4",
         sm: "h-8 min-w-8 px-2.5 text-xs [&_svg]:size-4",
+        xs: "h-7 min-w-7 gap-1 px-2 text-xs [&_svg]:size-3.5",
         // A full-width menu row: icon, label, then anything pushed right with ml-auto.
         row: "w-full justify-start gap-2 whitespace-normal px-2 py-1.5 text-left text-xs font-normal",
         // A bare icon in a dense header or list row; the icon sets the size.
