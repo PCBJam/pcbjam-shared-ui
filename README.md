@@ -12,6 +12,8 @@ elements. Apps compose these components and never restyle the primitives.
 - `src/components/*`: the components. Import them from `@pcbjam/ui`.
 - `src/theme.css`: neutral defaults for every token (shadcn's slate theme), for `:root`
   and `.dark`. Import it first; a brand stylesheet loaded after it overrides tokens.
+  `--font-sans` is the typeface (Tailwind's stack by default; the preset's `font-sans` and the
+  page font read it), so a brand sets its type with one token.
 - `tailwind-preset.js`: maps the tokens to Tailwind colours and radii.
 - `Button` is shadcn's, plus two text variants for `size="text"`, which has no box and takes
   the surrounding font and colour: `variant="link"` is a text action on its own ("Or use SSH

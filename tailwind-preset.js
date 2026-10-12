@@ -48,6 +48,11 @@ export default {
         info: "hsl(var(--info) / <alpha-value>)",
         preview: "hsl(var(--preview) / <alpha-value>)",
       },
+      // `font-sans` (and the page's base font) reads --font-sans, so a brand sets the typeface
+      // with one token. theme.css defaults it to Tailwind's stack.
+      fontFamily: {
+        sans: ["var(--font-sans)"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
