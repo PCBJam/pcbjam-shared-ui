@@ -126,3 +126,41 @@ describe("G2: every installed dependency has a compatible licence", () => {
     expect(bad).toEqual([]);
   });
 });
+
+// Radix keeps the open layers, the focus traps and body's saved pointer-events in
+// module state. Two copies of these packages don't see each other's layers: a Select
+// in a Dialog then closes the Dialog with it, and the copy that cleans up last puts
+// back `pointer-events: none` on body, so the page ignores every click. Pin the
+// Radix primitives to one release so they share one copy of each.
+const SHARED_RADIX_STATE = [
+  "@radix-ui/react-dismissable-layer",
+  "@radix-ui/react-focus-scope",
+  "@radix-ui/react-focus-guards",
+  "@radix-ui/react-portal",
+];
+
+describe("G3: one copy of Radix's shared layer state", () => {
+  it("every primitive loads the same dismissable-layer, focus-scope, focus-guards and portal", () => {
+    const versions = new Map<string, Map<string, string[]>>(SHARED_RADIX_STATE.map((n) => [n, new Map()]));
+    const seen = new Set<string>();
+    const queue: Array<[string, string, string]> = [...declared].map((n) => [root, n, n]);
+    while (queue.length) {
+      const [from, name, via] = queue.shift() as [string, string, string];
+      const dir = findPackageDir(from, name);
+      if (!dir || seen.has(dir)) continue;
+      seen.add(dir);
+      const pj = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
+      const users = versions.get(name)?.get(pj.version);
+      if (users) users.push(via);
+      else versions.get(name)?.set(pj.version, [via]);
+      for (const dep of Object.keys(pj.dependencies ?? {})) queue.push([dir, dep, via]);
+    }
+    const found = Object.fromEntries(
+      [...versions].map(([name, byVersion]) => [
+        name,
+        [...byVersion].map(([version, via]) => `${version} (via ${[...new Set(via)].join(", ")})`),
+      ]),
+    );
+    for (const name of SHARED_RADIX_STATE) expect(found[name], name).toHaveLength(1);
+  });
+});
