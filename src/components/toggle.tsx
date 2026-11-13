@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 
 const toggleVariants = cva(
-  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -20,9 +20,9 @@ const toggleVariants = cva(
         ghost: "hover:bg-accent",
       },
       size: {
-        default: "h-9 min-w-9 px-3 [&_svg]:size-4",
-        sm: "h-8 min-w-8 px-2.5 text-xs [&_svg]:size-4",
-        xs: "h-7 min-w-7 gap-1 px-2 text-xs [&_svg]:size-3.5",
+        default: "h-9 min-w-9 px-3 touch:min-h-10 touch:min-w-10 [&_svg]:size-4",
+        sm: "h-8 min-w-8 px-2.5 text-xs touch:min-h-10 touch:min-w-10 [&_svg]:size-4",
+        xs: "h-7 min-w-7 gap-1 px-2 text-xs touch:min-h-10 touch:min-w-10 [&_svg]:size-3.5",
         // A full-width menu row: icon, label, then anything pushed right with ml-auto.
         row: "w-full justify-start gap-2 whitespace-normal px-2 py-1.5 text-left text-xs font-normal",
         // A bare icon in a dense header or list row; the icon sets the size.
@@ -30,8 +30,8 @@ const toggleVariants = cva(
       },
     },
     compoundVariants: [
-      { variant: "segmented", size: "default", class: "h-7 px-3" },
-      { variant: "segmented", size: "sm", class: "h-6 px-2" },
+      { variant: "segmented", size: "default", class: "h-7 px-3 touch:min-h-10" },
+      { variant: "segmented", size: "sm", class: "h-6 px-2 touch:min-h-10 touch:px-3" },
     ],
     defaultVariants: { variant: "default", size: "default" },
   },

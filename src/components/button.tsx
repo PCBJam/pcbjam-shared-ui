@@ -5,11 +5,19 @@ import { cn } from "../lib/utils";
 
 const buttonVariants = cva(
   // The type and icon size live in the boxed sizes, so size="text" can take the surrounding font.
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
+  // `touch:` (see tailwind-preset.js) gives the boxed sizes a 40px minimum target at phone width
+  // on surfaces that opt in.
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        // Dark: a switched-off primary is a light fill at half strength, which reads louder than
+        // the enabled outline button next to it; it drops to the quiet secondary fill instead.
+        // That fill is close to a dark card's own, so the button keeps an outline (an inset ring,
+        // which does not change its size) and its label stays at full strength in the muted colour:
+        // still plainly a button, plainly off.
+        default:
+          "bg-primary text-primary-foreground hover:bg-primary/90 dark:disabled:bg-secondary dark:disabled:text-muted-foreground dark:disabled:opacity-100 dark:disabled:ring-1 dark:disabled:ring-inset dark:disabled:ring-input",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -29,18 +37,18 @@ const buttonVariants = cva(
         plain: "",
       },
       size: {
-        default: "h-9 px-4 py-2 text-sm font-medium [&_svg]:size-4",
-        sm: "h-8 rounded-md px-3 text-xs font-medium [&_svg]:size-4",
-        xs: "h-7 rounded-md px-2 text-xs font-medium [&_svg]:size-3.5",
+        default: "h-9 px-4 py-2 text-sm font-medium touch:min-h-10 [&_svg]:size-4",
+        sm: "h-8 rounded-md px-3 text-xs font-medium touch:min-h-10 touch:min-w-10 touch:text-sm [&_svg]:size-4",
+        xs: "h-7 rounded-md px-2 text-xs font-medium touch:min-h-10 touch:min-w-10 touch:px-3 [&_svg]:size-3.5",
         lg: "h-10 rounded-md px-8 text-sm font-medium [&_svg]:size-4",
-        icon: "h-9 w-9 text-sm font-medium [&_svg]:size-4",
+        icon: "h-9 w-9 text-sm font-medium touch:min-h-10 touch:min-w-10 [&_svg]:size-4",
         // A bare icon in a dense header or row (close, collapse); the icon sets the size.
         "icon-xs": "rounded p-0.5",
         // No box: the button is its text, in the surrounding font, and wraps like it.
         text: "h-auto gap-1 whitespace-normal p-0",
         // A full-width list row, laid out left to right in the surrounding font; the list sets
         // its padding, and a rounded row adds its radius.
-        row: "flex h-auto w-full justify-start whitespace-normal rounded-none text-left",
+        row: "flex h-auto w-full justify-start whitespace-normal rounded-none text-left focus-visible:ring-inset focus-visible:ring-offset-0",
       },
     },
     defaultVariants: {

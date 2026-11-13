@@ -20,14 +20,14 @@ const tabsListVariants = cva("", {
 });
 
 const tabsTriggerVariants = cva(
-  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         segmented:
-          "h-7 rounded-md px-3 hover:text-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+          "h-7 rounded-md px-3 touch:min-h-10 hover:text-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm",
         underline:
-          "-mb-px border-b-2 border-transparent px-1 pb-2 pt-1 text-muted-foreground hover:text-foreground data-[state=active]:border-primary data-[state=active]:text-foreground",
+          "-mb-px border-b-2 border-transparent px-1 pb-2 pt-1 touch:min-h-10 text-muted-foreground hover:text-foreground data-[state=active]:border-primary data-[state=active]:text-foreground",
         rail: "relative h-10 justify-start gap-2.5 rounded-md px-2.5 text-muted-foreground hover:bg-accent hover:text-foreground data-[state=active]:bg-accent data-[state=active]:text-foreground [&_svg]:size-5",
       },
     },
@@ -63,7 +63,7 @@ const TabsContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.Content
     ref={ref}
-    className={cn("focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring", className)}
+    className={cn("focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring", className)}
     {...props}
   />
 ));

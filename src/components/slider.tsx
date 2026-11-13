@@ -21,7 +21,7 @@ const Slider = React.forwardRef<
     </SliderPrimitive.Track>
     <SliderPrimitive.Thumb
       aria-label={thumbLabel}
-      className="block size-4 rounded-full border border-primary/50 bg-card shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+      className="block size-4 rounded-full border border-primary/50 bg-card shadow transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     />
   </SliderPrimitive.Root>
 ));

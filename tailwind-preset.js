@@ -60,5 +60,13 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [
+    tailwindcssAnimate,
+    // `touch:` applies at phone width inside a surface that opts in with `data-touch-targets`
+    // on an ancestor (usually <html>). The controls use it for a 40px minimum target there;
+    // a surface that does not opt in (the editor's dense overlays) keeps its sizes.
+    ({ addVariant }) => {
+      addVariant("touch", "@media (max-width: 767.98px) { :where([data-touch-targets]) & }");
+    },
+  ],
 };
